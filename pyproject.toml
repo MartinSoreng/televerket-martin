@@ -1,0 +1,15 @@
+[project]
+name = "jaffle-shop"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "dbt-core>=1.11.9",
+    "dbt-duckdb>=1.10.1",
+]
+
+[dependency-groups]
+dev = [
+    "sqlfluff>=4.1.0",
+]
