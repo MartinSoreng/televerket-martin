@@ -13,6 +13,9 @@ models:
     columns:
       - name: customer_id
         description: Primary key. Inherited from stg__crm_customers.
+        tests:
+          - unique
+          - not_null
       - name: full_name
         description: Customer full name from CRM.
       - name: status
@@ -48,8 +51,13 @@ models:
     columns:
       - name: invoice_id
         description: Primary key. Inherited from stg__billing_invoices.
+        tests:
+          - unique
+          - not_null
       - name: customer_id
         description: Customer the invoice belongs to.
+        tests:
+          - not_null
       - name: invoice_date
         description: Date the invoice was issued.
       - name: due_date
@@ -81,6 +89,9 @@ models:
     columns:
       - name: customer_id
         description: Primary key. Inherited from stg__crm_customers.
+        tests:
+          - unique
+          - not_null
       - name: full_name
         description: Customer full name from CRM.
       - name: activation_id
@@ -109,8 +120,13 @@ models:
     columns:
       - name: incident_id
         description: Primary key. Inherited from stg__network_incidents.
+        tests:
+          - unique
+          - not_null
       - name: customer_id
         description: Customer affected by the incident.
+        tests:
+          - not_null
       - name: reported_at
         description: Timestamp when the incident was reported.
       - name: resolved_at
@@ -121,6 +137,9 @@ models:
         description: Geographic region where the incident occurred.
       - name: severity
         description: Incident severity (high, medium, low).
+        tests:
+          - accepted_values:
+              values: ['low', 'medium', 'high']
       - name: customer_name
         description: Full name of the affected customer.
       - name: customer_status
