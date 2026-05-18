@@ -1,7 +1,6 @@
 ---
 marp: true
-theme: default
-class: invert
+theme: televerket
 paginate: true
 ---
 
@@ -789,4 +788,4 @@ Legg til modellen i `_intermediate.yml` med tag `network` og kolonnenivå-beskri
 Spørsmål:
 - Hvilken logikk ville blitt duplisert i begge marts hvis intermediate ikke fantes?
 - Er det noe i `int_customers__enriched` som egentlig er konsumentspesifikt og burde vært i mart i stedet?
-- Hvor går grensen i akkurat dette tilfellet? Hvor går grensen i akkurat dette tilfellet?
+- Hvor går grensen i akkurat dette tilfellet?
