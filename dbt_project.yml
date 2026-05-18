@@ -26,7 +26,5 @@ seeds:
 
 models:
   televerket:
-    staging:
+    standardize:
       +materialized: view
-    marts:
-      +materialized: table
