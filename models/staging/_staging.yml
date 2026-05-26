@@ -1,0 +1,109 @@
+version: 2
+
+models:
+  - name: stg__crm_customers
+    description: >
+      One row per customer from the CRM source. Renames custID, casts
+      created_at to date, and unpacks address and preferences JSON fields.
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: email
+        tests:
+          - not_null  # known issue: 5 customers have null email or phone
+      - name: phone
+        tests:
+          - not_null
+
+  - name: stg__crm_contracts
+    description: >
+      One row per contract from the CRM source. Renames cust_id to
+      customer_id and casts monthly_fee from VARCHAR to decimal.
+    columns:
+      - name: contract_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+          # known issue: C001, C005, C010, C016 each have 2 active contracts
+          - unique
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['active', 'suspended', 'terminated']
+
+  - name: stg__billing_invoices
+    description: >
+      One row per invoice from the billing source. Renames InvoiceID,
+      converts YYYYMMDD date strings to DATE, and casts amount_eur to decimal.
+    columns:
+      - name: invoice_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+          # known issue: 2 invoices reference customers not in crm_customers
+          - relationships:
+              to: ref('stg__crm_customers')
+              field: customer_id
+
+  - name: stg__billing_payments
+    description: >
+      One row per payment record from the billing source. Contains
+      duplicates — deduplicated in the intermediate layer.
+    columns:
+      - name: payment_id
+        tests:
+          - unique
+          - not_null
+      - name: invoice_ref
+        tests:
+          - not_null
+          # known issue: INV-2024-0001 and INV-2024-0042 each have 2 payments
+          - unique
+
+  - name: stg__network_service_activations
+    description: >
+      One row per network activation from the OSS source. Renames cust_id
+      to customer_id. device_info JSON is unpacked in the intermediate layer.
+    columns:
+      - name: activation_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+          # known issue: C001, C005, C010, C012, C019 each have 2 activations
+          - unique
+
+  - name: stg__network_incidents
+    description: >
+      One row per network incident from the OSS source. Renames inc_id to
+      incident_id and customer_ref to customer_id.
+    columns:
+      - name: incident_id
+        tests:
+          - unique
+          - not_null
+      - name: severity
+        tests:
+          - accepted_values:
+              values: ['low', 'medium', 'high']
+
+  - name: stg__catalog_products
+    description: >
+      One row per product version from the product catalog. Includes
+      valid_from / valid_to for historical versions.
+    columns:
+      - name: product_code
+        tests:
+          - not_null
+          # known issue: PP_L is reused across two catalog versions
+          - unique

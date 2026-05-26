@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: int_customers__enriched
+    description: >
+      Én rad per kunde, beriket med informasjon fra siste aktive kontrakt og
+      utpakkede preferanser fra CRM. Kunder uten noen kontrakt (f.eks. C017)
+      beholdes med null på alle kontraktfelt.
+    config:
+      materialized: table
+      tags:
+        - customer
+        - daily
+    columns:
+      - name: customer_id
+        description: Primærnøkkel. Unik kundeidentifikator arvet fra stg_crm__customers.
+      - name: contract_status
+        description: >
+          Status på kundens siste aktive kontrakt, rangert etter start_date.
+          Null for kunder uten noen kontrakt.
+      - name: monthly_fee_eur
+        description: >
+          Månedlig beløp fra kundens siste kontrakt, castet fra VARCHAR til NUMERIC.
+          Null for kunder uten kontrakt.
+      - name: preferred_language
+        description: Foretrukket språk pakket ut fra preferences-JSON. Null hvis ikke satt.
+      - name: paperless_billing
+        description: Om kunden har valgt papirfri faktura. Null hvis ikke satt.
+      - name: marketing_opt_in
+        description: Om kunden har samtykket til markedsføring. Null hvis ikke satt.
+      - name: contract_start_date
+        description: Startdato for kundens siste kontrakt. Null for kunder uten kontrakt.
+      - name: contract_end_date
+        description: Sluttdato for kundens siste kontrakt. Null for løpende eller ingen kontrakt.
