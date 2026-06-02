@@ -8,16 +8,16 @@ sources:
     tables: 
       - name: crm_customers
         description: "This table contains all customers of the company. It is updated daily with new customers and changes to existing customers." 
-        meta:
-          owner: crm-team
-          update_frequency: daily
-          pii: true
         config: 
           loaded_at_field: cast(created_at as timestamp)
           freshness: 
             warn_after: 
               count: 24 
               period: hour 
+          meta:
+            owner: crm-team
+            update_frequency: daily
+            pii: true
       - name: crm_contracts 
         description: "This table contains all contracts between the company and its customers. It is updated daily with new contracts and changes to existing contracts."
   - name: billing 

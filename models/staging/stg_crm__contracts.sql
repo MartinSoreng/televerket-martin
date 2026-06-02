@@ -14,7 +14,7 @@ renamed as (
         product_code
         status,
         parse_date('%Y-%m-%d', start_date) as start_date,
-        parse_date('%Y-%m-%d', end_date) as end_date,
+        coalesce(parse_date('%Y-%m-%d', end_date), '{{ var("default_end_date") }}') as end_date,
         monthly_fee
     from source
     

@@ -32,3 +32,33 @@ models:
         description: Startdato for kundens siste kontrakt. Null for kunder uten kontrakt.
       - name: contract_end_date
         description: Sluttdato for kundens siste kontrakt. Null for løpende eller ingen kontrakt.
+
+  - name: int_billing__invoice_settlement
+    description: >
+      Fakturaer beriket med tilhørende betalingsinformasjon. Hver rad representerer en faktura, og betalingsfeltene er fylt ut hvis det finnes en matchende betaling.
+    config:
+      materialized: table
+      tags:
+        - billing
+        - daily
+    columns:
+      - name: invoice_id
+        description: Primærnøkkel. Unik fakturaidentifikator arvet fra stg_billing__invoices.
+      - name: customer_id
+        description: Fremmednøkkel til int_customers__enriched, arvet fra stg_billing__invoices.
+      - name: invoice_date
+        description: Datoen fakturaen ble utstedt, arvet fra stg_billing__invoices.
+      - name: invoice_amount_eur
+        description: Fakturabeløp i euro, arvet fra stg_billing__invoices.
+      - name: invoice_status
+        description: Status på fakturaen (f.eks. 'open', 'paid'), arvet fra stg_billing__invoices.
+      - name: payment_id
+        description: Unik identifikator for betalingen som er knyttet til fakturaen, arvet fra stg_billing__payments. Null hvis ingen betaling er knyttet.
+      - name: payment_paid_on
+        description: Datoen betalingen ble gjennomført, arvet fra stg_billing__payments. Null hvis ingen betaling er knyttet.
+      - name: payment_amount_eur
+        description: Betalingsbeløp i euro, arvet fra stg_billing__payments. Null hvis ingen betaling er knyttet.
+      - name: payment_method
+        description: Betalingsmetode (f.eks. 'credit_card', 'bank_transfer'), arvet fra stg_billing__payments. Null hvis ingen betaling er knyttet.
+      - name: is_paid
+        description: Boolean som indikerer om fakturaen er betalt (true) eller ikke (false), basert på om det finnes en tilknyttet betaling.
