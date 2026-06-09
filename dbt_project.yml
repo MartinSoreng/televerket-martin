@@ -4,7 +4,6 @@ name: "televerket"
 version: "3.0.0"
 require-dbt-version: ">=1.5.0"
 
-
 profile: televerket # Put your profile here
 
 model-paths: ["models"]
