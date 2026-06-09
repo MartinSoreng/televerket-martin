@@ -19,7 +19,7 @@ renamed as (
         json_value(address, '$.street') as address_street,
         json_value(address, '$.city') as address_city,
         json_value(address, '$.zip') as address_zip,
-        json_value(address, '$.country') as address_countr
+        json_value(address, '$.country') as address_country
     from source
 
 )

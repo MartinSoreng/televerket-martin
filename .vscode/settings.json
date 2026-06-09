@@ -9,5 +9,6 @@
             "projectId": "tnn-sb-t536866"
         }
     ],
-    "sqltools.useNodeRuntime": false
+    "sqltools.useNodeRuntime": false,
+    "dbt.dbtPythonPathOverride": "C:\\Users\\t536866\\Desktop\\GitHub\\repos\\televerket-martin\\.venv\\Scripts\\python.exe"
 }

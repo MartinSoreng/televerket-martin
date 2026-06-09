@@ -44,7 +44,7 @@ joined as (
         customers.address_street,
         customers.address_city,
         customers.address_zip,
-        customers.address_countr,
+        customers.address_country,
 
         -- Preferences unpacked from JSON (null when not set)
         json_value(customers.customer_preferences, '$.language')               as preferred_language,

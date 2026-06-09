@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: mart_customer_360
+    description: >
+      Én rad per kunde med en komplett 360-graders visning. Kombinerer
+      kundeinformasjon, kontraktsstatus, preferanser og faktureringsdata
+      fra int_customers__enriched.
+    config:
+      materialized: table
+      tags:
+        - customer
+        - daily
+      contract: 
+        enforced: true
+    columns:
+    - name: customer_id
+      data_type: string
+    - name: customer_name
+      data_type: string
+    - name: email
+      data_type: string
+    - name: phone
+      data_type: string
+    - name: customer_status
+      data_type: string
+    - name: customer_created_at
+      data_type: date
+    - name: address_street
+      data_type: string
+    - name: address_city
+      data_type: string
+    - name: address_zip
+      data_type: string
+    - name: address_country
+      data_type: string
+    - name: preferred_language
+      data_type: string
+    - name: paperless_billing
+      data_type: bool
+    - name: marketing_opt_in
+      data_type: bool
+    - name: contract_id
+      data_type: string
+    - name: contract_status
+      data_type: string
+    - name: contract_start_date
+      data_type: date
+    - name: contract_end_date
+      data_type: date
+    - name: monthly_fee_eur
+      data_type: numeric
