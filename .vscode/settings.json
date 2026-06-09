@@ -1,0 +1,13 @@
+{
+    "sqltools.connections": [
+        {
+            "name": "sandbox",
+            "authenticator": "CLI",
+            "location": "europe-west1",
+            "previewLimit": 50,
+            "driver": "BigQuery",
+            "projectId": "tnn-sb-t536866"
+        }
+    ],
+    "sqltools.useNodeRuntime": false
+}
